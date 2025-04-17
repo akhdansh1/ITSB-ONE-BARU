@@ -1,9 +1,6 @@
 {
+    "outputDirectory": "dist",
     "builds": [
-      {
-        "src": "index.html",
-        "use": "@vercel/static"
-      }
-    ],
-    "outputDirectory": "dist"
+      { "src": "index.html", "use": "@vercel/static" }
+    ]
   }
