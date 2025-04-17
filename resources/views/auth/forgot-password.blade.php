@@ -38,6 +38,24 @@
             0% { transform: translateY(0) translateX(0) scale(1); }
             100% { transform: translateY(-50px) translateX(50px) scale(1.2); }
         }
+
+        .animate-fade-in {
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="font-[Poppins] h-screen overflow-auto text-white flex flex-col items-center justify-center px-4 py-6 space-y-6">
@@ -50,10 +68,11 @@
     </div>
 
     <!-- Icon -->
-    <img src="{{ asset('image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png') }}" alt="Dosen Icon" class="h-24 object-contain drop-shadow-lg">
+    <img src="{{ asset('image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png') }}" alt="Dosen Icon"
+         class="h-24 object-contain drop-shadow-lg animate-fade-in">
 
     <!-- Forgot Password Card -->
-    <div class="w-full max-w-xs bg-white/10 backdrop-blur-md text-white p-6 rounded-2xl border border-white/20 shadow-lg space-y-4">
+    <div class="w-full max-w-xs bg-white/10 backdrop-blur-md text-white p-6 rounded-2xl border border-white/20 shadow-lg space-y-4 animate-fade-in-up">
         <h2 class="text-xl font-semibold text-center">Lupa Password</h2>
 
         @if (session('status'))
@@ -81,11 +100,10 @@
             </button>
 
             <div class="text-center text-sm">
-                <!-- Tombol Kembali -->
-<a href="{{ url()->previous() === url('/forgot-password') ? route('login.mahasiswa') : url()->previous() }}"
-    class="text-blue-400 hover:underline">
-     ← Kembali
- </a>
+                <a href="{{ url()->previous() === url('/forgot-password') ? route('login.mahasiswa') : url()->previous() }}"
+                   class="text-blue-400 hover:underline">
+                    ← Kembali
+                </a>
             </div>
         </form>
     </div>

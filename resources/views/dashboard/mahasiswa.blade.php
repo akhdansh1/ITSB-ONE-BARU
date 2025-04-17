@@ -4,6 +4,7 @@
 <style>
     body {
         background: linear-gradient(to bottom right, #0f172a, #0fd2c2);
+        font-family: 'Inter', sans-serif;
     }
 
     .background-particles {
@@ -18,20 +19,38 @@
 
     .particle {
         position: absolute;
-        width: 100px;
-        height: 100px;
-        background: rgba(255, 255, 255, 0.05);
+        width: 120px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.03);
         border-radius: 50%;
-        animation: float 25s infinite alternate ease-in-out;
+        animation: float 30s infinite ease-in-out alternate;
     }
 
-    .particle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
-    .particle:nth-child(2) { top: 70%; left: 80%; animation-delay: 4s; }
-    .particle:nth-child(3) { top: 40%; left: 30%; animation-delay: 2s; }
+    .particle:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 70%; left: 85%; animation-delay: 4s; }
+    .particle:nth-child(3) { top: 50%; left: 35%; animation-delay: 2s; }
 
     @keyframes float {
-        0% { transform: translateY(0) translateX(0) scale(1); }
-        100% { transform: translateY(-50px) translateX(50px) scale(1.2); }
+        0% { transform: translateY(0px) scale(1); }
+        100% { transform: translateY(-60px) scale(1.1); }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 1.5s ease forwards;
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 
@@ -41,59 +60,68 @@
     <div class="particle"></div>
 </div>
 
-<div class="max-w-4xl mx-auto px-4 py-10 text-white relative z-10">
+<div class="max-w-5xl mx-auto px-4 py-12 text-white relative z-10">
     @php
         $email = Auth::user()->email;
         $name = ucfirst(explode('@', $email)[0]);
     @endphp
 
-    <!-- Tombol Logout -->
-<div class="flex justify-end mb-6">
-    <form method="POST" action="{{ route('logout') }}">
-        @csrf
-        <button type="submit"
-            class="backdrop-blur bg-white/10 border border-white/20 text-white text-sm font-semibold py-2 px-5 rounded-full shadow hover:bg-white/20 transition">
-            Logout
-        </button>
-    </form>
-</div>
-
-    <!-- Ucapan Selamat Datang -->
-    <div class="mb-6">
-        <h1 class="text-3xl font-bold">Selamat datang, {{ $name }}! 🎓</h1>
-        <p class="text-sm text-gray-300">Semoga harimu menyenangkan di ITSB One!</p>
+    <!-- Logout Button -->
+    <div class="flex justify-end mb-8">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit"
+                class="backdrop-blur-md bg-white/10 border border-white/20 text-white text-sm font-semibold py-2 px-6 rounded-full shadow-md hover:bg-white/20 transition-all duration-200">
+                Logout
+            </button>
+        </form>
     </div>
 
-    <!-- Fitur Navigasi -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- E-Campus -->
-        <a href="https://itsb.ecampuz.com/eakademikportal/index.php?pModule=zdKbnKU=&pSub=zdKbnKU=&pAct=18yZqg==" target="_blank" class="bg-[#002366] p-5 rounded-xl hover:bg-blue-900 transition">
-            <h2 class="text-xl font-semibold">🌐 E-Campus</h2>
-            <p class="text-sm text-gray-200 mt-2">Akses informasi akademik, KRS, nilai, dll.</p>
-        </a>
+    <!-- Welcome Message -->
+    <div class="mb-8 animate-fade-in-up">
+        <h1 class="text-4xl font-bold mb-2">Selamat datang, {{ $name }}! 🎓</h1>
+        <p class="text-base text-gray-300">Semoga harimu menyenangkan di <strong>ITSB One</strong> 🌟</p>
+    </div>
 
-        <!-- Website ITSB -->
-        <a href="https://itsb.ac.id" target="_blank" class="bg-[#002366] p-5 rounded-xl hover:bg-blue-900 transition">
-            <h2 class="text-xl font-semibold">🏛️ Website ITSB</h2>
-            <p class="text-sm text-gray-200 mt-2">Berita & info resmi kampus.</p>
-        </a>
+    <!-- Navigation Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
+        @php
+            $cards = [
+                [
+                    'title' => '🌐 E-Campus',
+                    'desc' => 'Akses informasi akademik, KRS, nilai, dll.',
+                    'link' => 'https://itsb.ecampuz.com/eakademikportal/index.php?pModule=zdKbnKU=&pSub=zdKbnKU=&pAct=18yZqg==',
+                ],
+                [
+                    'title' => '🏛️ Website ITSB',
+                    'desc' => 'Berita & info resmi kampus.',
+                    'link' => 'https://itsb.ac.id',
+                ],
+                [
+                    'title' => '📚 Perpustakaan',
+                    'desc' => 'Cari buku, e-journal, repository & lainnya.',
+                    'link' => 'https://perpustakaan.itsb.ac.id',
+                ],
+                [
+                    'title' => '🗓️ Jadwal Kuliah',
+                    'desc' => 'Lihat jadwal kelas mingguanmu.',
+                    'link' => '/dashboard/mahasiswa/jadwal',
+                ],
+                [
+                    'title' => '💬 Forum Diskusi',
+                    'desc' => 'Diskusi bareng teman sejurusan.',
+                    'link' => '/dashboard/mahasiswa/forum',
+                ],
+            ];
+        @endphp
 
-        <!-- Perpustakaan -->
-        <a href="https://perpustakaan.itsb.ac.id" target="_blank" class="bg-[#002366] p-5 rounded-xl hover:bg-blue-900 transition">
-            <h2 class="text-xl font-semibold">📚 Perpustakaan</h2>
-            <p class="text-sm text-gray-200 mt-2">Cari buku, e-journal, repository & lainnya.</p>
-        </a>
-
-        <!-- Tambahan Opsional -->
-        <a href="#" class="bg-[#002366] p-5 rounded-xl hover:bg-blue-900 transition">
-            <h2 class="text-xl font-semibold">🗓️ Jadwal Kuliah</h2>
-            <p class="text-sm text-gray-200 mt-2">Lihat jadwal kelas mingguanmu.</p>
-        </a>
-
-        <a href="#" class="bg-[#002366] p-5 rounded-xl hover:bg-blue-900 transition">
-            <h2 class="text-xl font-semibold">💬 Forum Diskusi</h2>
-            <p class="text-sm text-gray-200 mt-2">Diskusi bareng teman sejurusan.</p>
-        </a>
+        @foreach ($cards as $card)
+            <a href="{{ $card['link'] }}" target="_blank"
+               class="bg-white/10 backdrop-blur-sm p-6 rounded-xl border border-white/20 shadow-md hover:shadow-xl hover:bg-white/20 transition-all duration-200">
+                <h2 class="text-xl font-semibold">{{ $card['title'] }}</h2>
+                <p class="text-sm text-gray-200 mt-2">{{ $card['desc'] }}</p>
+            </a>
+        @endforeach
     </div>
 </div>
 @endsection

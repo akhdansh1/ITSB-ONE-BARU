@@ -26,14 +26,48 @@ Route::get('/dashboard', function () {
 // =========================
 Route::get('/dashboard/mahasiswa', function () {
     return view('dashboard.mahasiswa');
-})->middleware(['auth', 'verified'])->name('dashboard.mahasiswa');
+})->middleware(['auth'])->name('dashboard.mahasiswa');
+
+// =========================
+// 📅 Jadwal Kuliah (Mahasiswa)
+// =========================
+Route::view('/dashboard/mahasiswa/jadwal', 'dashboard.mahasiswa.jadwal')
+    ->middleware('auth')
+    ->name('dashboard.mahasiswa.jadwal');
+
+// =========================
+// 💬 Forum Diskusi (Mahasiswa)
+// =========================
+Route::view('/dashboard/mahasiswa/forum', 'dashboard.mahasiswa.forum')
+    ->middleware('auth')
+    ->name('dashboard.mahasiswa.forum');
 
 // =========================
 // 👨‍🏫 Dashboard Dosen
 // =========================
 Route::get('/dashboard/dosen', function () {
     return view('dashboard.dosen');
-})->middleware(['auth', 'verified'])->name('dashboard.dosen');
+})->middleware(['auth'])->name('dashboard.dosen');
+
+// 👨‍🏫 Dosen - Input Nilai
+Route::get('/dashboard/dosen/input-nilai', function () {
+    return view('dashboard.dosen.input-nilai');
+})->middleware(['auth'])->name('dosen.input-nilai');
+
+// 👨‍🏫 Dosen - Jadwal Mengajar
+Route::get('/dashboard/dosen/jadwal', function () {
+    return view('dashboard.dosen.jadwal');
+})->middleware(['auth'])->name('dosen.jadwal');
+
+// 👨‍🏫 Dosen - Forum Dosen
+Route::get('/dashboard/dosen/forum', function () {
+    return view('dashboard.dosen.forum');
+})->middleware(['auth'])->name('dosen.forum');
+
+// 👨‍🏫 Dosen - Arsip Perkuliahan
+Route::get('/dashboard/dosen/arsip', function () {
+    return view('dashboard.dosen.arsip');
+})->middleware(['auth'])->name('dosen.arsip');
 
 // =========================
 // 👤 Profil User
@@ -73,9 +107,16 @@ Route::get('/auth/google/callback', [GoogleAuthController::class, 'callback']);
 use Illuminate\Support\Facades\Auth;
 
 Route::post('/logout', function () {
+    $role = Auth::user()->role ?? null;
+
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
+
+    if ($role === 'dosen') {
+        return redirect()->route('login.dosen');
+    }
+
     return redirect()->route('login.mahasiswa');
 })->name('logout');
 
@@ -93,3 +134,7 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
 
     Route::post('/login/mahasiswa', [RoleLoginController::class, 'loginMahasiswa'])->name('login.mahasiswa.submit');
     Route::post('/login/dosen', [RoleLoginController::class, 'loginDosen'])->name('login.dosen.submit');
+
+    Route::get('/cek-auth', function () {
+        dd(Auth::user());
+    })->middleware('auth');

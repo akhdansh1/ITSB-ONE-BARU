@@ -38,6 +38,24 @@
             0% { transform: translateY(0) translateX(0) scale(1); }
             100% { transform: translateY(-50px) translateX(50px) scale(1.2); }
         }
+
+        .animate-fade-in {
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1.5s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="font-[Poppins] h-screen overflow-auto text-white flex flex-col items-center justify-center px-4 py-6 space-y-6">
@@ -50,10 +68,11 @@
     </div>
 
     <!-- Icon / Gambar Dosen -->
-    <img src="{{ asset('image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png') }}" alt="Dosen Icon" class="h-24 object-contain drop-shadow-lg">
+    <img src="{{ asset('image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png') }}" alt="Dosen Icon"
+         class="h-24 object-contain drop-shadow-lg animate-fade-in">
 
     <!-- Login Card -->
-    <div class="w-full max-w-xs bg-white/10 backdrop-blur-md text-white p-6 rounded-2xl border border-white/20 shadow-lg space-y-4">
+    <div class="w-full max-w-xs bg-white/10 backdrop-blur-md text-white p-6 rounded-2xl border border-white/20 shadow-lg space-y-4 animate-fade-in-up">
         <form method="POST" action="{{ route('login') }}" class="space-y-4">
             @csrf
 
@@ -75,23 +94,26 @@
                         <path d="M12 11c0 1.657-1.343 3-3 3s-3-1.343-3-3V7a3 3 0 016 0v4zm6 2V7a9 9 0 00-18 0v6a9 9 0 0018 0z" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </div>
-                <input type="password" name="password" placeholder="Password"
+                <input type="password" name="password" placeholder="Kata Sandi"
                     class="pl-10 w-full py-2 rounded-full bg-[#002366] text-white placeholder-white focus:outline-none" required>
             </div>
 
             <!-- Submit -->
-            <button type="submit" class="w-full bg-white text-[#002366] font-bold py-2 rounded-full hover:bg-gray-200 transition">
+            <button type="submit"
+                    class="w-full bg-white text-[#002366] font-bold py-2 rounded-full hover:bg-gray-200 transition">
                 MASUK
             </button>
 
-            <a href="{{ url('/auth/google') }}" class="flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg shadow px-4 py-2 hover:bg-gray-100 transition">
+            <!-- Google Login -->
+            <a href="{{ url('/auth/google') }}"
+               class="flex items-center justify-center gap-2 bg-white border border-gray-300 rounded-lg shadow px-4 py-2 hover:bg-gray-100 transition">
                 <img src="https://img.icons8.com/color/24/000000/google-logo.png" alt="Google logo" class="w-5 h-5" />
-                <span class="text-sm font-medium text-gray-700">Login with Google</span>
+                <span class="text-sm font-medium text-gray-700">Lanjut dengan Google</span>
             </a>
 
             <!-- Lupa Password -->
             <div class="text-right text-sm">
-                <a href="{{ route('password.request') }}" class="text-white hover:underline">Lupa Password?</a>
+                <a href="{{ route('password.request') }}" class="text-white hover:underline">Lupa Kata Sandi?</a>
             </div>
         </form>
 

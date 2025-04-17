@@ -9,35 +9,29 @@ use Illuminate\View\View;
 
 class RoleLoginController extends Controller
 {
-    /**
-     * Tampilkan halaman login untuk Mahasiswa.
-     */
     public function showMahasiswaLogin(): View
     {
         return view('auth.login-mahasiswa');
     }
 
-    /**
-     * Tampilkan halaman login untuk Dosen.
-     */
     public function showDosenLogin(): View
     {
         return view('auth.login-dosen');
     }
 
-    /**
-     * Proses login Mahasiswa.
-     */
     public function loginMahasiswa(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+            $request->session()->regenerate(); // 🛡️ Session secure
 
+            $user = Auth::user();
+            \Log::info('Login berhasil', ['user' => $user]);
             if ($user->role === 'mahasiswa') {
                 return redirect()->route('dashboard.mahasiswa');
             } else {
+                \Log::warning('User bukan mahasiswa', ['role' => $user->role]);
                 Auth::logout();
                 return redirect()->route('login.mahasiswa')->withErrors([
                     'email' => 'Akun ini bukan mahasiswa.',
@@ -50,16 +44,14 @@ class RoleLoginController extends Controller
         ]);
     }
 
-    /**
-     * Proses login Dosen.
-     */
     public function loginDosen(Request $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+            $request->session()->regenerate();
 
+            $user = Auth::user();
             if ($user->role === 'dosen') {
                 return redirect()->route('dashboard.dosen');
             } else {

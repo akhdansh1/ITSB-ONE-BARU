@@ -6,6 +6,7 @@
 <style>
     body {
         background: linear-gradient(to bottom right, #0f172a, #0fd2c2);
+        font-family: 'Inter', sans-serif;
     }
 
     .background-particles {
@@ -27,31 +28,31 @@
         animation: move 25s infinite alternate ease-in-out;
     }
 
-    .particle:nth-child(1) {
-        top: 10%;
-        left: 5%;
-        animation-delay: 0s;
-    }
-
-    .particle:nth-child(2) {
-        top: 70%;
-        left: 80%;
-        animation-delay: 4s;
-    }
-
-    .particle:nth-child(3) {
-        top: 40%;
-        left: 30%;
-        animation-delay: 2s;
-    }
+    .particle:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; }
+    .particle:nth-child(2) { top: 70%; left: 80%; animation-delay: 4s; }
+    .particle:nth-child(3) { top: 40%; left: 30%; animation-delay: 2s; }
 
     @keyframes move {
-        0% {
-            transform: translateY(0) translateX(0) scale(1);
-        }
-        100% {
-            transform: translateY(-50px) translateX(50px) scale(1.2);
-        }
+        0% { transform: translateY(0) translateX(0) scale(1); }
+        100% { transform: translateY(-50px) translateX(50px) scale(1.2); }
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 1.4s ease forwards;
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 
@@ -61,51 +62,43 @@
     <div class="particle"></div>
 </div>
 
-<div class="w-full max-w-5xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+<div class="w-full max-w-5xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-2 gap-10 items-center animate-fade-in-up">
     <!-- Kiri -->
     <div>
-        <!-- Logo utama ITSB One -->
-<img src="image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png" alt="Logo" class="h-40 mb-4">
+        <img src="image/WhatsApp_Image_2025-04-10_at_15.11.09-removebg-preview.png" alt="Logo" class="h-40 mb-4">
+        <div class="h-0.5 w-[calc(100%-3rem)] bg-white/30 ml-6 mb-6 rounded-full"></div>
 
-<!-- Garis setelah logo utama -->
-<div class="h-0.5 w-[calc(100%-3rem)] bg-white/30 ml-6 mb-6 rounded-full"></div>
+        <h1 class="text-2xl font-bold mb-2 text-white">Selamat datang</h1>
+        <p class="mb-6 leading-relaxed text-white">
+            di <strong>ITSB One</strong>, portal sistem informasi terpadu Institut Teknologi Sains Bandung. Silakan masuk menggunakan akun Anda.
+        </p>
 
-<h1 class="text-2xl font-bold mb-2 text-white">Selamat datang</h1>
-<p class="mb-6 leading-relaxed text-white">
-    di <strong>ITSB One</strong>, portal sistem informasi terpadu Institut Teknologi Sains Bandung. Silakan masuk menggunakan akun Anda.
-</p>
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl space-y-4 border border-white/10 shadow-lg">
+            <p class="text-center font-semibold text-white">Masuk sebagai :</p>
+            <div class="flex justify-around text-center">
+                <a href="/login/mahasiswa" class="group">
+                    <div class="w-16 h-16 rounded-full bg-[#0fd2c2] mx-auto mb-2 flex items-center justify-center text-2xl group-hover:scale-110 transition">👤</div>
+                    <span class="group-hover:underline text-white">Mahasiswa</span>
+                </a>
+                <a href="/login/dosen" class="group">
+                    <div class="w-16 h-16 rounded-full bg-[#0fd2c2] mx-auto mb-2 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
+                    <span class="group-hover:underline text-white">Dosen</span>
+                </a>
+            </div>
+        </div>
 
-<!-- Login card -->
-<div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl space-y-4 border border-white/10 shadow-lg">
-    <p class="text-center font-semibold text-white">Masuk sebagai :</p>
-    <div class="flex justify-around text-center">
-        <a href="/login/mahasiswa" class="group">
-            <div class="w-16 h-16 rounded-full bg-[#0fd2c2] mx-auto mb-2 flex items-center justify-center text-2xl group-hover:scale-110 transition">👤</div>
-            <span class="group-hover:underline text-white">Mahasiswa</span>
-        </a>
-        <a href="/login/dosen" class="group">
-            <div class="w-16 h-16 rounded-full bg-[#0fd2c2] mx-auto mb-2 flex items-center justify-center text-2xl group-hover:scale-110 transition">🎓</div>
-            <span class="group-hover:underline text-white">Dosen</span>
-        </a>
-    </div>
-</div>
+        <div class="mt-8 h-0.5 w-[calc(100%-3rem)] bg-white/30 ml-6 mb-4 rounded-full"></div>
+        <img src="image/1734318481_New Logo ITSB.png" alt="Logo ITSB" class="h-5 mb-4 opacity-70 ml-6 block">
 
-<!-- Garis setelah login card -->
-<div class="mt-8 h-0.5 w-[calc(100%-3rem)] bg-white/30 ml-6 mb-4 rounded-full"></div>
-
-<!-- Logo kecil ITSB -->
-<img src="image/1734318481_New Logo ITSB.png" alt="Logo ITSB" class="h-5 mb-4 opacity-70 ml-6 block">
-
-<!-- Info DSTI -->
-<p class="text-xs opacity-70 leading-snug text-white ml-6 mt-4">
-    ITSB One - Portal Sistem Informasi Terpadu Institut Teknologi Sains Bandung<br>
-    Dikelola oleh DSTI<br>
-    Layanan bantuan: IT Care (telp. 0822-19317596, email: admin_bdg@itsb.ac.id)
-</p>
+        <p class="text-xs opacity-70 leading-snug text-white ml-6 mt-4">
+            ITSB One - Portal Sistem Informasi Terpadu Institut Teknologi Sains Bandung<br>
+            Dikelola oleh DSI ITSB<br>
+            Layanan bantuan: IT Care (telp. 0872323234, email: dsi@itsb.ac.id)
+        </p>
     </div>
 
     <!-- Kanan -->
-    <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl space-y-6 border border-white/10 shadow-lg">
+    <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl space-y-6 border border-white/10 shadow-lg animate-fade-in">
         <h2 class="font-bold text-lg text-white">Tautan Penting<br>Institut Teknologi Sains Bandung</h2>
         <ul class="space-y-3">
             <li><a href="https://itsb.ac.id/" class="block bg-white/10 rounded px-4 py-2 hover:bg-white/20 text-white">🌐 www.itsb.ac.id</a></li>

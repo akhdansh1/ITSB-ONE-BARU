@@ -8,50 +8,48 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleAuthController extends Controller
 {
-    /**
-     * Redirect ke halaman login Google.
-     */
     public function redirect()
     {
         return Socialite::driver('google')->redirect();
     }
 
-    /**
-     * Callback dari Google setelah otentikasi.
-     */
     public function callback()
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
+            $email = $googleUser->email;
 
-            $user = User::updateOrCreate(
-                ['email' => $googleUser->getEmail()],
+            // ✅ Cek domain email
+            if (!str_ends_with($email, '@itsb.ac.id')) {
+                return redirect()->route('login.mahasiswa')
+                    ->withErrors(['email' => 'Login hanya diperbolehkan dengan email @itsb.ac.id']);
+            }
+
+            // 🔍 Cek user, kalau belum ada → buat baru
+            $user = User::firstOrCreate(
+                ['email' => $email],
                 [
-                    'name'     => $googleUser->getName(),
-                    'password' => bcrypt(str()->random(16)), // dummy password
-                    'role'     => $this->determineRole($googleUser->getEmail()),
+                    'name' => $googleUser->getName(),
+                    'password' => bcrypt(\Illuminate\Support\Str::random(12)),
+                    'role' => 'mahasiswa', // Default role
                 ]
             );
 
+            // 🔐 Login
             Auth::login($user);
 
+            // 🧭 Redirect sesuai role
             return match ($user->role) {
                 'mahasiswa' => redirect()->route('dashboard.mahasiswa'),
-                'dosen'     => redirect()->route('dashboard.dosen'),
-                default     => redirect()->route('dashboard'),
+                'dosen' => redirect()->route('dashboard.dosen'),
+                default => redirect()->route('login.mahasiswa')->withErrors([
+                    'email' => 'Role tidak valid.',
+                ]),
             };
-
         } catch (\Exception $e) {
-            return redirect()->route('login.mahasiswa')->with('error', 'Google login gagal: ' . $e->getMessage());
+            return redirect()->route('login.mahasiswa')->withErrors([
+                'email' => 'Gagal login dengan Google: ' . $e->getMessage(),
+            ]);
         }
-    }
-
-    /**
-     * Menentukan role berdasarkan domain email.
-     * Bisa kamu kembangkan misalnya pakai prefix juga.
-     */
-    protected function determineRole(string $email): string
-    {
-        return str_ends_with($email, '@dosen.univ.ac.id') ? 'dosen' : 'mahasiswa';
     }
 }
